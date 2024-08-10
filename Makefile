@@ -3,10 +3,10 @@ CFLAGS=-Wall -Werror -Wextra -pedantic
 EXECS=server
 EXECC=client
 
-DEPS=src/string_functions.c src/fetch_request.c src/init_server.c
+DEPS=depend/string_functions.c depend/fetch_request.c depend/init_server.c
 HEADERS=header/http.h header/strings.h
-SRCS = src/2-server.c
-SRCC = src/2-client.c
+SRCS = src/0-server.c
+SRCC = src/0-client.c
 MAIN = test/0-main.c
 HEADER = http.h
 
