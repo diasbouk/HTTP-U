@@ -13,10 +13,11 @@ char *create_response(char *route) {
 	}
 	content = file_read(fname);
 	if (!content) {
-		status = "404";
-		content = "Not found !! :(";
+		header = "HTTP/1.1 404 NOT FOUND\r\n";
+		content = file_read("data/not-found.html");
 	}
-	header = "HTTP/1.1 200 OK\r\n";
+	else
+		header = "HTTP/1.1 200 OK\r\n";
 	status = "Content-Type: text/html\r\n\r\n";
 	size = ft_strlen(header) + ft_strlen(status) + ft_strlen(content);
 	response = malloc(sizeof(char) * (size + 1));
