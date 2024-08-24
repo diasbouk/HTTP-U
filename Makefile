@@ -1,21 +1,28 @@
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -pedantic
-EXECS=server
-EXECC=client
+EX=server
 
-DEPS=src/string_functions.c src/fetch_request.c src/init_server.c
-HEADERS=header/http.h header/strings.h
-SRCS = src/2-server.c
-SRCC = src/2-client.c
-MAIN = test/0-main.c
-HEADER = http.h
+MAIN = tests/2-main.c
+DEPS=depend/*.c
+OBJS= depend/obj/*.o
+HEADERS=include/http.h include/strings.h
+SRC = src/0-server.c
 
-build:
-	$(CC) $(CFLAGS) $(DEPS) $(HEADERS) $(SRCS) -o $(EXECS)
-	$(CC) $(CFLAGS) $(DEPS) $(SRCC) $(HEADERS) -o $(EXECC)
+all : libsv.a
+	$(CC) $(SRC) -L. libsv.a -o $(EX)
+
+libsv.a: $(SRC) $(DEPS)
+	$(CC) $(CFLAGS) -c $(DEPS)
+	mv *.o depend/obj
+	ar rcs libsv.a $(OBJS)
 
 clean:
-		rm $(EXECS)
-		rm $(EXECC)
-main:
-	$(CC) $(CFLAGS) $(MAIN) -o main
+	rm $(OBJS)
+
+fclean: clean
+	rm $(EX) libsv.a
+
+test: $(MAIN)
+	$(CC) $(MAIN) $(DEPS) -o main
+
+re: fclean all

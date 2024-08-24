@@ -25,8 +25,8 @@
 */
 
 typedef struct request_t {
-  char methode[256];
-  char file_name[256];
+  char *methode;
+  char *file_name;
 } request_t;
 
 /**
@@ -44,5 +44,8 @@ typedef struct response_t {
 /* Prints erorrs and exits with EXIT_FAILURE */
 void fetch_request(char *buffer);
 int init_socket(struct sockaddr_in *address);
+int	file_write(char *fname, const char *str);
+char *create_response(char *route);
+char	*file_read(const char *fname);
 
 #endif

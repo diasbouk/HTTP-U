@@ -1,48 +1,37 @@
-#include "../header/http.h"
-#include "../header/strings.h"
+#include "../include/http.h"
+#include "../include/strings.h"
 
-int main(void)
-{
+int main(void) {
 
 	/* Create the socket file descriptor here --> */
 	int socket_fd;
 	int client_socket;
-	socklen_t address_len;
+	socklen_t size;
 	struct sockaddr_in address;
-	/* char buffer[BUFFER_SIZE];
-	char response[BUFFER_SIZE]; */
+	char response[BUFFER_SIZE];
+	char request[BUFFER_SIZE];
 
-	socket_fd = socket(AF_INET, SOCK_STREAM, PROTOCOL);
-	address_len = (socklen_t)sizeof(address);
+	/* Initializing the socket file descriptor */
+	socket_fd = init_socket(&address);
 	if (socket_fd == -1)
-		_failed("Socket couldn't be created \n");
-
-	/* Earasing the memory area for our adress struct */
-	bzero((char *)&address, address_len);
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = htonl(INADDR_ANY);
-	address.sin_port = htons(PORT);
-
-	/* Bind the socket to a port and an adress */
-	if (bind(socket_fd, (struct sockaddr *)&address, address_len))
-		_failed("Couldn't bind the socket\n");
-
-	/* Listen on the defined port ana wait for any
-	connections from the client */
-	if (listen(socket_fd, BACK_LOG))
-		_failed("Can't listen on socket_fd\n");
-
-	/* Accept connections if any */
-	client_socket =
-		accept(socket_fd, (struct sockaddr *)&address, &address_len);
-	if (client_socket == -1)
-		_failed("Couldn't recieve any connection, failed to get the client fd "
-				"!!\n");
-
-	char *http_response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nHello from the server!\n";
-	write(client_socket, http_response, strlen(http_response));
-	/* Read from and write to the clien */
+		ft_failed("Failed to initialize the socket\n");
+	while (1) {
+		client_socket = accept(socket_fd, (struct sockaddr *)&address, &size);
+		if (client_socket == -1) {
+			ft_puts("Failed to accept connections! Try again\n");
+			return (0);
+		}
+		char request[BUFFER_SIZE];
+		ft_bzero(request, BUFFER_SIZE);
+		if (!read(client_socket, request, BUFFER_SIZE)) {
+			ft_puts("Failed to read request\n");
+			return (0);
+		}
+		char **res_list = ft_split(request, " ");
+		char *response = create_response(res_list[1]);
+		write(client_socket, response, ft_strlen(response));
+		close(client_socket);
+	}
 	close(socket_fd);
-	close(client_socket);
 	return (0);
 }
