@@ -3,35 +3,52 @@
 
 int main(void) {
 
-	/* Create the socket file descriptor here --> */
-	int socket_fd;
-	int client_socket;
-	socklen_t size;
+	int servfd, clienfd;
 	struct sockaddr_in address;
-	char response[BUFFER_SIZE];
-	char request[BUFFER_SIZE];
+	socklen_t size;
+	request_t *req;
+	char *resp;
 
-	/* Initializing the socket file descriptor */
-	socket_fd = init_socket(&address);
-	if (socket_fd == -1)
-		ft_failed("Failed to initialize the socket\n");
-	while (1) {
-		client_socket = accept(socket_fd, (struct sockaddr *)&address, &size);
-		if (client_socket == -1) {
+	servfd = init_socket(&address);
+	if (servfd == -1) {
+		ft_puts("Failed to create the server socket, try again\n");
+		return (0);
+	}
+
+	while (TRUE) {
+		signal(SIGINT, handle_signal);
+		if (SIGINT == 0) {
+			close(clienfd);
+			close(servfd);
+			ft_puts("All closed !\n");
+		}
+		clienfd = accept(servfd, (struct sockaddr *)&address, &size);
+		if (clienfd == -1) {
 			ft_puts("Failed to accept connections! Try again\n");
 			return (0);
 		}
 		char request[BUFFER_SIZE];
 		ft_bzero(request, BUFFER_SIZE);
-		if (!read(client_socket, request, BUFFER_SIZE)) {
+		if (!read(clienfd, request, BUFFER_SIZE)) {
 			ft_puts("Failed to read request\n");
 			return (0);
 		}
-		char **res_list = ft_split(request, " ");
-		char *response = create_response(res_list[1]);
-		write(client_socket, response, ft_strlen(response));
-		close(client_socket);
+		req = strto_request(request);
+		if (!req) {
+			printf("Error parsing the request !\n");
+			return (0);
+		}
+		resp = create_response(req);
+		if (!resp) {
+			printf("Failed to generate response !\n");
+			return (0);
+		}
+		write(clienfd, resp, ft_strlen(resp));
+		free(resp);
+		resp = NULL;
+		close(clienfd);
 	}
-	close(socket_fd);
+
+	close(servfd);
 	return (0);
 }
