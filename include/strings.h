@@ -15,7 +15,7 @@
 
 void	ft_failed(char *msg);
 void	ft_bzero(void *addr, unsigned int size);
-char 	**ft_split(char *str, char *charest);
+char 	**ft_split(const char *str, char *charest);
 char *ft_strdup(const char *str);
 char *ft_super_strdup(char *str, char*charset);
 int ft_strcmp(const char *s1, const char *s2);
