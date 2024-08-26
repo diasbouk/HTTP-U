@@ -1,15 +1,15 @@
 #include "../include/http.h"
 #include "../include/strings.h"
 
-char *create_response(char *route) {
+char *create_response(request_t *req) {
 	char *response, *status, *content, *header, fname[30] = {0};
 	int size;
 
-	if (!strcmp(route, "/"))
+	if (!strcmp(req->route, "/"))
 		strcpy(fname, "data/index.html");
 	else {
 		strcpy(fname, "data");
-		strcat(fname, route);
+		strcat(fname, req->route);
 	}
 	content = file_read(fname);
 	if (!content) {
@@ -27,5 +27,6 @@ char *create_response(char *route) {
 	strcpy(response, header);
 	strcat(response, status);
 	strcat(response, content);
+	free(content);
 	return (response);
 }

@@ -1,6 +1,9 @@
 #include "../include/http.h"
 #include "../include/strings.h"
-
+void	handle_signal(int seg) {
+	(void)seg;
+	ft_puts("Seg int recieved , closing ..\n");
+}
 int	file_write(char *fname, const char *str) {
 	int	file;
 
@@ -16,11 +19,13 @@ int	file_write(char *fname, const char *str) {
 
 char	*file_read(const char *fname) {
 
-	char	*buffer;
+	char	*buff;
 	char	c;
 	int		i;
 	int		file;
 
+	if (!fname)
+		return (NULL);
 	i = 0;
 	file = open(fname, O_RDONLY);
 	if (file == -1)
@@ -31,13 +36,13 @@ char	*file_read(const char *fname) {
 	file = open(fname, O_RDONLY);
 	if (file == -1)
 		return (NULL);
-	buffer = (char *)malloc(sizeof(char) * (i + 1));
-	if (!buffer)
+	buff = (char *)malloc(sizeof(char) * (i + 1));
+	if (!buff)
 		return (NULL);
 	i = 0;
 	while (read( file, &c, 1)) {
-		buffer[i++] = c;
+		buff[i++] = c;
 	}
-	buffer[i] = '\0';
-	return (buffer);
+	buff[i] = '\0';
+	return (buff);
 }

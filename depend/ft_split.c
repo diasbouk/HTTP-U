@@ -19,7 +19,7 @@ int is_delim(char c, char *charset) {
 	return (0);
 }
 
-int	ft_super_strlen(char *str, char *charset) {
+int	ft_super_strlen(const char *str, char *charset) {
 	int i;
 
 	i = 0;
@@ -28,7 +28,7 @@ int	ft_super_strlen(char *str, char *charset) {
 	return (i);
 }
 
-char *ft_super_strdup(char *str, char*charset) {
+char *ft_super_strdup(const char *str, char*charset) {
 	int	i;
 	char *dup;
 
@@ -50,7 +50,7 @@ char *ft_super_strdup(char *str, char*charset) {
 	 * Return: An array of strings containing args .
 */
 
-char **ft_split(char *str, char *charset) {
+char **ft_split(const char *str, char *charset) {
 	int i;
 	int count;
 	char **tab;
