@@ -12,7 +12,7 @@ int main(void) {
   int sockfd;
   int client_fd, i = 0;
   struct sockaddr_in address;
-  char buffer[1014];
+  char buff[1014];
   char c;
   int file;
   socklen_t size = sizeof(address);
@@ -27,10 +27,10 @@ int main(void) {
       perror("failed to connect\n");
       return (0);
     }
-    ft_bzero(buffer, 1014);
-    read(client_fd, buffer, 1014);
+    ft_bzero(buff, 1014);
+    read(client_fd, buff, 1014);
     file = open("request.txt", O_RDWR | O_CREAT | O_APPEND);
-    write(file, buffer, strlen(buffer));
+    write(file, buff, strlen(buff));
     write(client_fd, "Done!", 5);
     close(client_fd);
   }
