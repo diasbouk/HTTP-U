@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -Werror -Wextra -pedantic
 EX=server
 
-MAIN = tests/2-main.c
+MAIN = tests/3-main.c
 DEPS=depend/*.c
 OBJS= depend/obj/*.o
 HEADERS=include/http.h include/strings.h
