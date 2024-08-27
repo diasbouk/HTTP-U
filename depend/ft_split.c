@@ -10,6 +10,8 @@
 int is_delim(char c, char *charset) {
 	int	i;
 
+	if (!charset)
+		return (-1);
 	i = 0;
 	while (charset[i]) {
 		if (charset[i] == c)
@@ -23,7 +25,7 @@ int	ft_super_strlen(const char *str, char *charset) {
 	int i;
 
 	i = 0;
-	while (!is_delim(str[i], charset))
+	while (!is_delim(str[i], charset) && str[i])
 		i++;
 	return (i);
 }
@@ -33,10 +35,12 @@ char *ft_super_strdup(const char *str, char*charset) {
 	char *dup;
 
 	i = 0;
+	if (!charset)
+		return (NULL);
 	dup = (char *)malloc(sizeof(char) * (ft_super_strlen(str, charset) + 1));
 	if (!dup)
 		return (NULL);
-	while (!is_delim(str[i], charset)) {
+	while (!is_delim(str[i], charset) && str[i]) {
 		dup[i] = str[i];
 		i++;
 	}
@@ -62,7 +66,7 @@ char **ft_split(const char *str, char *charset) {
 	while (str[i]) {
 		if (!is_delim(str[i], charset)) {
 			count++;
-			while (!is_delim(str[i], charset))
+			while (!is_delim(str[i], charset) && str[i])
 				i++;
 		}
 		i++;
@@ -73,11 +77,9 @@ char **ft_split(const char *str, char *charset) {
 	i = 0;
 	count = 0;
 	while (str[i]) {
-		while (is_delim(str[i], charset))
-			i++;
 		if (!is_delim(str[i], charset)) {
 			tab[count++] = ft_super_strdup(str + i, charset);
-			while (!is_delim(str[i], charset))
+			while (!is_delim(str[i], charset) && str[i])
 				i++;
 		}
 		i++;
