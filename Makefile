@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -Werror -Wextra -pedantic
 EX=server
 
-MAIN = tests/3-main.c
+MAIN = tests/4-main.c
 DEPS=depend/*.c
 OBJS= depend/obj/*.o
 HEADERS=include/http.h include/strings.h
@@ -23,6 +23,6 @@ fclean: clean
 	rm $(EX) libsv.a
 
 test: $(MAIN)
-	$(CC) $(MAIN) $(DEPS) -o main
+	$(CC) -g  $(FLAGS) $(MAIN) $(DEPS) -o main
 
 re: fclean all
