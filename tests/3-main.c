@@ -6,6 +6,7 @@ int main(void) {
 	struct sockaddr_in address;
 	socklen_t size;
 	request_t *req;
+	char request[BUFFER_SIZE];
 	char *resp;
 
 	servfd = init_socket(&address);
@@ -20,7 +21,6 @@ int main(void) {
 			ft_puts("Failed to accept connections! Try again\n");
 			return (0);
 		}
-		char request[BUFFER_SIZE];
 		ft_bzero(request, BUFFER_SIZE);
 		if (!read(clienfd, request, BUFFER_SIZE)) {
 			ft_puts("Failed to read request\n");
@@ -32,6 +32,7 @@ int main(void) {
 			return (0);
 		}
 		resp = create_response(req);
+		free(req);
 		if (!resp) {
 			printf("Failed to generate response !\n");
 			return (0);
