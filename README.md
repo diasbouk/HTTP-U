@@ -1,1 +1,6 @@
-### Very minimal http-web-server built with c using linux socket api for the sake of learning and exploring
+# Minimal HTTP-U web server
+
+    Built with raw C, minimul usage of libs
+
+> [!WARNING]  
+> The S in the repo name stands for code safety and security :)
