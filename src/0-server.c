@@ -3,52 +3,41 @@
 
 int main(void) {
 
-	int servfd, clienfd;
 	struct sockaddr_in address;
-	socklen_t size;
+	socklen_t size = sizeof(address);
+	int sockfd, clienfd, i = 0;
 	request_t *req;
-	char *resp;
+	char *buffer, *response;
 
-	servfd = init_socket(&address);
-	if (servfd == -1) {
-		ft_puts("Failed to create the server socket, try again\n");
+	sockfd = init_socket(&address);
+	if (sockfd == -1) {
+		ft_puts("Sokcet messed up!\n");
 		return (0);
 	}
 
 	while (TRUE) {
-		signal(SIGINT, handle_signal);
-		if (SIGINT == 0) {
-			close(clienfd);
-			close(servfd);
-			ft_puts("All closed !\n");
-		}
-		clienfd = accept(servfd, (struct sockaddr *)&address, &size);
-		if (clienfd == -1) {
-			ft_puts("Failed to accept connections! Try again\n");
-			return (0);
-		}
-		char request[BUFFER_SIZE];
-		ft_bzero(request, BUFFER_SIZE);
-		if (!read(clienfd, request, BUFFER_SIZE)) {
-			ft_puts("Failed to read request\n");
-			return (0);
-		}
-		req = strto_request(request);
-		if (!req) {
-			printf("Error parsing the request !\n");
-			return (0);
-		}
-		resp = create_response(req);
-		if (!resp) {
-			printf("Failed to generate response !\n");
-			return (0);
-		}
-		write(clienfd, resp, ft_strlen(resp));
-		free(resp);
-		resp = NULL;
-		close(clienfd);
-	}
+		clienfd = accept(sockfd, (struct sockaddr *)&address, &size);
+		if (clienfd == -1)
+			ft_failed("failed to accept !\n");
 
-	close(servfd);
+		buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE);
+		ft_bzero(buffer, BUFFER_SIZE);
+
+		if (read(clienfd, buffer, BUFFER_SIZE) < 1)
+			ft_failed("Error reading\n");
+
+		buffer = _realloc(buffer, ft_strlen(buffer), BUFFER_SIZE);
+		req = strto_request(buffer);
+		printf("methode : %d\n route: %s\n version: %d\n", req->method,
+			   req->route, req->version);
+		response = create_response(req);
+		free(req);
+		req = NULL;
+		write(clienfd, response, ft_strlen(response));
+
+		close(clienfd);
+		free(buffer);
+	}
+	close(sockfd);
 	return (0);
 }
