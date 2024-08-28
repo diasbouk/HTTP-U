@@ -26,7 +26,7 @@ int main(void) {
 		if (read(clienfd, buffer, BUFFER_SIZE) < 1)
 			ft_failed("Error reading\n");
 
-		buffer = _realloc(buffer, ft_strlen(buffer), BUFFER_SIZE);
+		buffer = ft_realloc(buffer, ft_strlen(buffer), BUFFER_SIZE);
 		req = strto_request(buffer);
 		printf("methode : %d\n route: %s\n version: %d\n", req->method,
 			   req->route, req->version);
