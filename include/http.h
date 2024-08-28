@@ -50,6 +50,7 @@ typedef struct response_t {
 /* Prints erorrs and exits with EXIT_FAILURE */
 void fetch_request(char *buff);
 void handle_signal(int seg);
+void	*ft_realloc(void *old,unsigned int old_size, unsigned int new_size);
 request_t *strto_request(const char *request);
 int init_socket(struct sockaddr_in *address);
 int file_write(char *fname, const char *str);
