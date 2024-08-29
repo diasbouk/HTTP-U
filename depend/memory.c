@@ -1,6 +1,21 @@
 #include "../include/http.h"
 #include "../include/strings.h"
 
+void	ft_free(char **arr) {
+	int	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i]) {
+		free(arr[i]);
+		arr[i] = NULL;
+		i++;
+	}
+	free(arr);
+	arr = NULL;
+}
+
 void	*ft_memcpy(void *dest, void *src, unsigned int size)
 {
         unsigned long   i;
