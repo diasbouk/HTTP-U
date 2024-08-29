@@ -1,9 +1,5 @@
 #include "../include/http.h"
 #include "../include/strings.h"
-void	handle_signal(int seg) {
-	(void)seg;
-	ft_puts("Seg int recieved , closing ..\n");
-}
 int	file_write(char *fname, const char *str) {
 	int	file;
 
