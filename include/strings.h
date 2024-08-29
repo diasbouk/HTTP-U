@@ -14,6 +14,8 @@
 #define FALSE 0
 
 void	ft_failed(char *msg);
+void	ft_strcpy(char *dest, const char *src);
+char	*ft_strcat(char *dest, const char *src);
 void	ft_bzero(void *addr, unsigned int size);
 char 	**ft_split(const char *str, char *charest);
 char *ft_strdup(const char *str);

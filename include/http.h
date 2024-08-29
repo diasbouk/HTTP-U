@@ -20,6 +20,10 @@
 #define FALSE 0
 #define PORT 8089
 #define SEG 0
+#define HEADER_404 "HTTP/1.1 404 NOT FOUND\r\n"
+#define HEADER_200 "HTTP/1.1 200 OK\r\n"
+#define TYPE_HTML "Content-Type: text/html\r\n\r\n"
+#define TYPE_TEXT "Content-Type: text/plain\r\n\r\n"
 
 
 enum method { GET, POST, PUT, ERROR };
@@ -51,11 +55,14 @@ typedef struct response_t {
 void fetch_request(char *buff);
 void handle_signal(int seg);
 void	*ft_realloc(void *old,unsigned int old_size, unsigned int new_size);
+void	d_free(char **arr);
 request_t *strto_request(const char *request);
 int init_socket(struct sockaddr_in *address);
+char	*get_fname(char *route);
 int file_write(char *fname, const char *str);
 char *create_response(request_t *req);
 char *file_read(const char *fname);
+void	ft_free(char **arr);
 
 
 #endif
