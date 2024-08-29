@@ -21,12 +21,15 @@ request_t *strto_request(const char *request) {
 	if (!list)
 		return (NULL);
 	req = (request_t *)malloc(sizeof(request_t));
-	if (!req)
+	if (!req) {
+		ft_free(list);
 		return (NULL);
+	}
 
 	req->method = get_method(list[0]);
-	req->route = list[1];
+	req->route = ft_strdup(list[1]);
 	req->version = list[2][5] -48;
+	ft_free(list);
 
 	return (req);
 }
