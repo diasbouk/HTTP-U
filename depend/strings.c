@@ -110,5 +110,34 @@ char	*ft_strdup(const char *str) {
 		dup[i] = str[i];
 		i++;
 	}
+	dup[i] = '\0';
 	return (dup);
+}
+
+void	ft_strcpy(char *dest, const char *src) {
+	int	i;
+
+	i = 0;
+	if (!src)
+		return ;
+	while (src[i]) {
+		dest[i] = src[i];
+		i++;
+	}
+}
+
+char	*ft_strcat(char *dest, const char *src) {
+	int	i;
+	int	j;
+
+	if (!src || !dest)
+		return (NULL);
+	i = 0;
+	j = ft_strlen(dest);
+	while (src[i]) {
+		dest[j] = src[i];
+		i++;
+		j++;
+	}
+	return (dest);
 }
