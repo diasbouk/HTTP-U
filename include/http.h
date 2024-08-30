@@ -23,7 +23,7 @@
 #define HEADER_404 "HTTP/1.1 404 NOT FOUND\r\n"
 #define HEADER_200 "HTTP/1.1 200 OK\r\n"
 #define TYPE_HTML "Content-Type: text/html\r\n\r\n"
-#define TYPE_TEXT "Content-Type: text/plain\r\n\r\n"
+#define TYPE_TEXT "Content-Type: text/html\r\n\r\n"
 
 
 enum method { GET, POST, PUT, ERROR };
