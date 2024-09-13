@@ -16,12 +16,14 @@ int main(void)
 		ft_puts("Sokcet messed up!\n");
 		return (0);
 	}
+	printf("Listening PORT:8089\n");
 
 	while (1)
 	{
 		clienfd = accept(sockfd, (struct sockaddr *)&address, &size);
 		if (clienfd == -1)
 			ft_failed("failed to accept !\n");
+		printf("Connection established\n");
 
 		buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE);
 		ft_bzero(buffer, BUFFER_SIZE);
@@ -32,7 +34,7 @@ int main(void)
 		buffer = ft_realloc(buffer, ft_strlen(buffer), BUFFER_SIZE);
 		req = strto_request(buffer);
 		response = create_response(req);
-		printf("\n\n --- %s --- \n\n", response);
+		printf("Sending response\n");
 		write(clienfd, response, ft_strlen(response));
 		free(req->route);
 		free(req);
